@@ -1,53 +1,20 @@
+// Project.js (optional - only if you need this component)
 import styles from "./Project.module.css";
-import { useState } from "react";
-import ProjectModal from "../UI/ProjectModal";
-import { AnimatePresence } from "framer-motion";
 
-const Project = ({ img, link, delay, title, techno, description, summary, source }) => {
-  const [modal, setModal] = useState(false);
-  const modalHandler = () => {
-    setModal(false);
-  };
+const Project = ({ img, title, techno, description, link, source }) => {
   return (
-    <>
-      <div
-        data-aos-delay={delay}
-        data-aos="fade-right"
-        className={styles.project}
-      >
-        <div className={styles.browser}>
-          <div className={styles.circle1}></div>
-          <div className={styles.circle2}></div>
-          <div className={styles.circle3}></div>
+    <div className={styles.project}>
+      <img src={img} alt={title} className={styles.image} />
+      <div className={styles.content}>
+        <h3>{title}</h3>
+        <p className={styles.techno}>{techno}</p>
+        <p className={styles.description}>{description}</p>
+        <div className={styles.buttons}>
+          <a href={link} className={styles.button}>See Live</a>
+          <a href={source} className={styles.button}>Source Code</a>
         </div>
-        <img
-          onClick={() => {
-            setModal(true);
-          }}
-          src={img}
-          alt=""
-          className={styles.img}
-        />
       </div>
-      <AnimatePresence
-        initial={false}
-        exitBeforeEnter={true}
-        onExitComplete={() => null}
-      >
-        {modal && (
-          <ProjectModal
-            title={title}
-            techno={techno}
-            description={description}
-            summary={summary}
-            link={link}
-            source={source}
-            img={img}
-            onConfirm={modalHandler}
-          />
-        )}
-      </AnimatePresence>
-    </>
+    </div>
   );
 };
 

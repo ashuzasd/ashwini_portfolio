@@ -123,3 +123,34 @@
     padding: 20px;
   }
 }
+
+/* Add these styles to your About.module.css file */
+
+.gridBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.gridCanvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* If not already set, make sure the about container is positioned relative */
+.about {
+  position: relative;
+  /* Keep all your existing styles for .about */
+}
+
+/* Ensure content stays above the grid */
+.left, .right {
+  position: relative;
+  z-index: 1;
+  /* Keep all your existing styles for .left and .right */
+}

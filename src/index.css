@@ -40,6 +40,11 @@ body {
   z-index: 1000000;
 }
 
+.retro-grid-cell {
+  border: 2px solid #FF2975 !important;
+  opacity: 0.8 !important;
+}
+
 @media screen and (max-width: 390px) {
   .cursor,
   .cursor2 {

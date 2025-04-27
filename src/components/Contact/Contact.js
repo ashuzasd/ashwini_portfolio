@@ -1,39 +1,26 @@
 import styles from "./Contact.module.css";
 import { useRef, useState } from "react";
-import emailjs from "emailjs-com";
 import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
 import Marker from "../../img/marker.png";
-import Config from "../../config";
 import ThankYou from "../UI/ThankYou";
 import { AnimatePresence } from "framer-motion";
+
 const Contact = () => {
   const formRef = useRef();
   const [done, setDone] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    emailjs
-      .sendForm(
-        Config.SERVICE_ID,
-        Config.TEMPLATE_ID,
-        formRef.current,
-        Config.USER_ID
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-          setDone(true);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
+    // No emailjs functionality, just set done to true for demo
+    setDone(true);
   };
+
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: Config.API_KEY,
+    googleMapsApiKey: "YOUR_GOOGLE_MAPS_API_KEY", // Replace with actual key
   });
 
   if (!isLoaded) return <div>Loading</div>;
+
   return (
     <div id="contact" className={styles.contact}>
       <div className={styles.right}>
@@ -69,6 +56,7 @@ const Contact = () => {
           <button data-aos="fade-up-right">Submit</button>
         </form>
       </div>
+
       <AnimatePresence
         initial={false}
         exitBeforeEnter={true}
@@ -93,7 +81,7 @@ const Contact = () => {
           center={{ lat: 33.838000707701006, lng: -117.86423156003966 }}
           mapContainerClassName={styles.map}
           options={{
-            mapId: Config.MAP_ID,
+            mapId: "YOUR_MAP_ID", // Replace with actual map ID or remove if not used
             disableDefaultUI: true,
             gestureHandling: "greedy",
           }}

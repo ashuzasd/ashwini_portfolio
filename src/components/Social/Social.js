@@ -12,7 +12,7 @@ const Social = () => {
       <ul data-aos="fade-up" className={styles.list}>
         <li>
           <a
-            href="https://github.com/nhanng19"
+            // href="https://github.com/nhanng19"
             aria-label="Github"
             className={styles.link}
             target="_blank"
@@ -27,7 +27,7 @@ const Social = () => {
         </li>
         <li>
           <a
-            href="https://www.linkedin.com/in/nhanngyn/"
+            // href="https://www.linkedin.com/in/nhanngyn/"
             aria-label="Github"
             className={styles.link}
             target="_blank"
@@ -42,7 +42,7 @@ const Social = () => {
         </li>
         <li>
           <a
-            href="https://gitlab.com/nhanng19"
+            // href="https://gitlab.com/nhanng19"
             aria-label="Github"
             className={styles.link}
             target="_blank"
