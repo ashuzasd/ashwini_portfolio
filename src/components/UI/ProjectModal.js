@@ -5,6 +5,7 @@ import Cancel from "./Cancel";
 import { motion } from "framer-motion";
 import parse from "html-react-parser";
 import Jingle from "../../img/Jingle.png";
+
 const Backdrop = (props) => {
   const dropIn = {
     hidden: {
@@ -20,6 +21,7 @@ const Backdrop = (props) => {
       opacity: 0,
     },
   };
+
   return (
     <motion.div
       variants={dropIn}

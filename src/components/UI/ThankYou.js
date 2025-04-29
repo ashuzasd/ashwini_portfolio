@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom";
 import classes from "./ThankYou.module.css";
 import { motion } from "framer-motion";
+
 const Backdrop = (props) => {
  const dropIn = {
    hidden: {
