@@ -1,5 +1,6 @@
 import classes from "./Card.module.css";
 import { motion } from "framer-motion";
+
 const Card = (props) => {
   const dropIn = {
     hidden: {
