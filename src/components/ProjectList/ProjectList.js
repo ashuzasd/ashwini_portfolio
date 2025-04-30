@@ -122,36 +122,36 @@ const ProjectList = () => {
       </div>
 
       <div className={styles.list}>
-        {projects.map((project) => (
-          <div 
-            key={project.id}
-            className={`${styles.projectWrapper} ${visibleProjects.includes(project.id) ? styles.visible : ''}`}
-          >
-            <div className={styles.projectContainer}>
-              <div className={styles.projectImage}>
-                <img src={project.img} alt={project.title} />
-              </div>
-              <div className={styles.projectContent}>
-                <h2>{project.title}</h2>
-                <div className={styles.techno}>{project.techno}</div>
-                <p className={styles.description}>{project.description}</p>
-                <div className={styles.actions}>
-                  {project.link && (
-                    <a href={project.link} target="_blank" rel="noreferrer" className={styles.actionBtn}>
-                      See Live
-                    </a>
-                  )}
-                  {project.source && (
-                    <a href={project.source} target="_blank" rel="noreferrer" className={styles.actionBtn}>
-                      Source Code
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+  {projects.map((project, index) => (
+    <div 
+      key={project.id}
+      className={`${styles.projectWrapper} ${visibleProjects.includes(project.id) ? styles.visible : ''}`}
+    >
+      <div 
+        className={styles.projectContainer}
+        style={{
+          flexDirection: index % 2 === 0 ? "row" : "row-reverse",
+          backgroundColor: "rgba(0, 0, 0, 0.25)",
+          borderRadius: "10px",
+          padding: "20px",
+          alignItems: "center",
+          border: "none", // explicitly no border
+        }}
+      >
+        <div className={styles.projectImage}>
+          <img src={project.img} alt={project.title} />
+        </div>
+        <div className={styles.projectContent}>
+          <h2>{project.title}</h2>
+          <div className={styles.techno}>{project.techno}</div>
+          <p className={styles.description}>{project.description}</p>
+        </div>
       </div>
+    </div>
+  ))}
+</div>
+
+
     </div>
   );
 };
