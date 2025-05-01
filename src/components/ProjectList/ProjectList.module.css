@@ -201,3 +201,17 @@
 .rightImage {
   flex-direction: row-reverse;
 }
+
+/* Add these styles to your ProjectList.module.css */
+
+.projectWrapper {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  margin-bottom: 30px;
+}
+
+.projectWrapper.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
