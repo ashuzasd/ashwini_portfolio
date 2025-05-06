@@ -21,172 +21,94 @@ const About = () => {
     let width = canvas.width = canvas.offsetWidth;
     let height = canvas.height = canvas.offsetHeight;
     
-    // Grid configuration
-    const gridSize = 35;
-    const dotSize = 1.5;
+    // Matrix-style coding animation
+    const chars = "01{}[]();:<>?/!@#$%^&*-+=|~`abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const fontSize = 14;
+    const columns = Math.floor(width / fontSize);
     
-    // Points for grid
-    const points = [];
-    const spacing = width > 800 ? 30 : 20;
-    const cols = Math.floor(width / spacing) + 2;
-    const rows = Math.floor(height / spacing) + 2;
+    // Create an array to track the Y position of each column
+    const drops = [];
+    for (let i = 0; i < columns; i++) {
+      drops[i] = Math.floor(Math.random() * -100);
+    }
     
-    // Create grid points with random velocity
-    for (let i = 0; i < cols; i++) {
-      for (let j = 0; j < rows; j++) {
-        // Generate gray colors (same value for r, g, b)
-        const grayValue = 120 + Math.random() * 60; // Values between 120-180 for medium gray
+    // Color gradient for the text (green matrix style)
+    const colors = [
+      { r: 0, g: 255, b: 0 },   // Bright green
+      { r: 0, g: 200, b: 0 },   // Medium green
+      { r: 0, g: 150, b: 0 }    // Dark green
+    ];
+    
+    const draw = () => {
+      // Semi-transparent black background for trail effect
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, width, height);
+      
+      // Draw the characters
+      for (let i = 0; i < drops.length; i++) {
+        // Random character
+        const text = chars[Math.floor(Math.random() * chars.length)];
         
-        points.push({
-          x: i * spacing,
-          y: j * spacing,
-          originX: i * spacing,
-          originY: j * spacing,
-          vx: Math.random() * 0.5 - 0.25,
-          vy: Math.random() * 0.5 - 0.25,
-          active: 0.3 + Math.random() * 0.2,
-          color: {
-            r: grayValue,
-            g: grayValue,
-            b: grayValue
-          }
-        });
+        // Random color from our gradient
+        const colorIdx = Math.floor(Math.random() * colors.length);
+        const color = colors[colorIdx];
+        
+        // Random opacity based on position (fade out at bottom)
+        const opacity = Math.random() * 0.8 + 0.2;
+        
+        ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+        ctx.font = `${fontSize}px monospace`;
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        
+        // Reset drops to top when they reach bottom with some randomness
+        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        
+        // Move the Y coordinate down
+        drops[i]++;
       }
-    }
-    
-    // Create wave centers for automatic animation
-    const waveCenters = [];
-    for (let i = 0; i < 3; i++) {
-      waveCenters.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 2,
-        vy: (Math.random() - 0.5) * 2,
-        radius: 80 + Math.random() * 60
-      });
-    }
+    };
     
     // Animation variables
     let animationId;
-    let time = 0;
-    
-    const animate = () => {
-      ctx.clearRect(0, 0, width, height);
-      time += 0.01;
-      
-      // Update wave centers
-      waveCenters.forEach(center => {
-        center.x += center.vx;
-        center.y += center.vy;
-        
-        // Bounce wave centers off edges
-        if (center.x < 0 || center.x > width) center.vx *= -1;
-        if (center.y < 0 || center.y > height) center.vy *= -1;
-      });
-      
-      // Update points
-      for (let i = 0; i < points.length; i++) {
-        const point = points[i];
-        
-        // Auto animation with wave-like motion
-        let totalForceX = 0;
-        let totalForceY = 0;
-        
-        // Influence from wave centers
-        waveCenters.forEach(center => {
-          const dx = center.x - point.x;
-          const dy = center.y - point.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          
-          if (dist < center.radius) {
-            const force = (1 - dist / center.radius) * 0.03;
-            totalForceX += dx * force;
-            totalForceY += dy * force;
-            point.active = Math.min(0.8, point.active + 0.2);
-          }
-        });
-        
-        // Add some subtle movement based on time
-        totalForceX += Math.sin(time + point.originX * 0.01) * 0.2;
-        totalForceY += Math.cos(time + point.originY * 0.01) * 0.2;
-        
-        // Update position with forces
-        point.x += totalForceX;
-        point.y += totalForceY;
-        
-        // Gradually return to original position
-        point.x += (point.originX - point.x) * 0.05;
-        point.y += (point.originY - point.y) * 0.05;
-        
-        // Natural fade of activity
-        point.active = Math.max(0.3, point.active * 0.98);
-        
-        // Draw point
-        ctx.beginPath();
-        ctx.arc(point.x, point.y, dotSize, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${point.color.r}, ${point.color.g}, ${point.color.b}, ${point.active})`;
-        ctx.fill();
-        
-        // Connect nearby points with lines
-        for (let j = i + 1; j < points.length; j++) {
-          const nextPoint = points[j];
-          const dx = point.x - nextPoint.x;
-          const dy = point.y - nextPoint.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < gridSize) {
-            ctx.beginPath();
-            ctx.moveTo(point.x, point.y);
-            ctx.lineTo(nextPoint.x, nextPoint.y);
-            const lineOpacity = Math.max(0, 0.15 - distance / 100);
-            ctx.strokeStyle = `rgba(${point.color.r}, ${point.color.g}, ${point.color.b}, ${lineOpacity})`;
-            ctx.stroke();
-          }
-        }
-      }
-      
-      animationId = requestAnimationFrame(animate);
-    };
-    
-    // Handle mouse movement as a bonus interaction
-    const handleMouseMove = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-      
-      // Add temporary wave center at mouse position
-      points.forEach(point => {
-        const dx = mouseX - point.x;
-        const dy = mouseY - point.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        if (dist < 100) {
-          const force = (1 - dist / 100) * 0.2;
-          point.x += dx * force;
-          point.y += dy * force;
-          point.active = Math.min(0.8, point.active + 0.2);
-        }
-      });
-    };
+    let interval = setInterval(draw, 33); // ~30fps
     
     // Handle resize
     const handleResize = () => {
       width = canvas.width = canvas.offsetWidth;
       height = canvas.height = canvas.offsetHeight;
+      
+      // Recalculate columns
+      const newColumns = Math.floor(width / fontSize);
+      
+      // Adjust drops array
+      if (newColumns > drops.length) {
+        // Add new columns
+        for (let i = drops.length; i < newColumns; i++) {
+          drops[i] = Math.floor(Math.random() * -100);
+        }
+      } else if (newColumns < drops.length) {
+        // Remove extra columns
+        drops.length = newColumns;
+      }
+      
+      // Restart animation with new dimensions
+      clearInterval(interval);
+      interval = setInterval(draw, 33);
     };
     
     // Event listeners
-    window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('resize', handleResize);
     
     // Start animation
-    animate();
+    draw();
     
     // Cleanup
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationId);
+      clearInterval(interval);
+      if (animationId) cancelAnimationFrame(animationId);
     };
   }, []);
 
