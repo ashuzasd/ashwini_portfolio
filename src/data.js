@@ -4,27 +4,29 @@ import Fooder from "./img/Fooder.png";
 import Jingle from "./img/Jingle.png";
 import Notepad from "./img/notepad.png";
 import Portfolio from "./img/oldportfolio.png";
+import img1 from './assets/img1.png'
+import img2 from './assets/img-2.png'
 // data.js
 export const projects = [
   {
     id: 1,
-    title: "GitBook",
-    techno: "React, Node, Express, MongoDB",
-    description: "Content Management System for developers with bi-directional communication and Kanban Board.",
-    img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    title: "Name It",
+    techno: "React, Js",
+    description: "Name-It is a name-search tool that suggests names and checks domain availability in a namespace. It helps users find and secure domain names efficiently.",
+    img: img1,
     link: "#",
     source: "#",
-    summary: "GitBook has multiple tools for developers to organize their workspace..."
+    summary: "Name-It is a name-search tool that suggests names and checks domain availability in a namespace. It helps users find and secure domain names efficiently."
   },
   {
     id: 2,
-    title: "E-Commerce App",
-    techno: "React, Firebase, Stripe",
-    description: "Full-featured e-commerce platform with payment processing and inventory management.",
-    img: "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    title: "laundry App",
+    techno: "React, Firebase, ",
+    description: "laundry app streamlines laundry services by allowing users to schedule pickups, track orders, and manage payments effortlessly. It offers a seamless and user-friendly experience for hassle-free.",
+    img: img2,
     link: "#",
     source: "#",
-    summary: "An online store with product listings, cart functionality, and secure checkout..."
+    summary: "laundry app streamlines laundry services by allowing users to schedule pickups, track orders, and manage payments effortlessly."
   },
   {
     id: 3,
