@@ -6,6 +6,7 @@ import Notepad from "./img/notepad.png";
 import Portfolio from "./img/oldportfolio.png";
 import img1 from './assets/img1.png'
 import img2 from './assets/img-2.png'
+import img3 from './assets/img3.png'
 // data.js
 export const projects = [
   {
@@ -30,12 +31,12 @@ export const projects = [
   },
   {
     id: 3,
-    title: "Task Manager",
+    title: "Dynamic Wheather App",
     techno: "Vue.js, Node.js, PostgreSQL",
-    description: "Productivity application for managing tasks with team collaboration features.",
-    img: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    description: "Dynamic weather app, provides real-time weather updates and forecasts based on user location or search inputs. It delivers a sleek and responsive interface for easy and accurate weather tracking.",
+    img: img3,
     link: "#",
     source: "#",
-    summary: "Kanban-style task management system with drag-and-drop interface..."
+    summary: "Dynamic weather app, provides real-time weather updates and forecasts based on user location or search inputs. It delivers a sleek and responsive interface for easy and accurate weather tracking."
   }
 ];
