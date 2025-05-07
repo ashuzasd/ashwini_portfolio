@@ -21,9 +21,9 @@ const About = () => {
     let width = canvas.width = canvas.offsetWidth;
     let height = canvas.height = canvas.offsetHeight;
     
-    // Extended character set for full text display
-    const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ{}[]();:<>?/!@#$%^&*-+=|~`";
-    const fontSize = 14; // Slightly larger for better readability
+    // Matrix-style coding animation
+    const chars = "02{}[]();:importexportincludeexcludedivtexttag`";
+    const fontSize = 12; // Smaller font size for thinner appearance
     const columns = Math.floor(width / fontSize);
     
     // Create an array to track the Y position of each column
@@ -39,68 +39,39 @@ const About = () => {
       { r: 229, g: 231, b: 235 }  // Slightly darker gray
     ];
     
-    // Store multiple characters per column for full text effect
-    const columnTexts = Array(columns).fill().map(() => []);
-    const maxTextLength = 20; // Number of characters to show per column
-    
     const draw = () => {
       // Clear the canvas completely (transparent background)
       ctx.clearRect(0, 0, width, height);
       
       // Draw the characters
-      for (let i = 0; i < columns; i++) {
-        // Add new random character at the top occasionally
-        if (Math.random() > 0.97) {
-          columnTexts[i].unshift(chars[Math.floor(Math.random() * chars.length)]);
-          if (columnTexts[i].length > maxTextLength) {
-            columnTexts[i].pop();
-          }
-        }
+      for (let i = 0; i < drops.length; i++) {
+        // Random character
+        const text = chars[Math.floor(Math.random() * chars.length)];
         
         // Random color from our gradient
         const colorIdx = Math.floor(Math.random() * colors.length);
         const color = colors[colorIdx];
         
-        // Draw all characters in the column
-        for (let j = 0; j < columnTexts[i].length; j++) {
-          const opacity = 1 - (j / maxTextLength); // Fade out as we go down
-          ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
-          ctx.font = `300 ${fontSize}px monospace`; // Normal font weight
-          ctx.fillText(
-            columnTexts[i][j], 
-            i * fontSize, 
-            drops[i] * fontSize + j * fontSize
-          );
-        }
+        // Subtle opacity variation
+        const opacity = Math.random() * 0.6 + 0.4; // Reduced max opacity
         
-        // Move the column down
-        drops[i] += 0.5; // Consistent slow speed
+        ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+        ctx.font = `100 ${fontSize}px monospace`; // Thin font weight
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
         
-        // Reset column when it goes too far down
-        if (drops[i] * fontSize > height + maxTextLength * fontSize) {
+        // Slower reset with more randomness
+        if (drops[i] * fontSize > height && Math.random() > 0.99) { // Reduced reset frequency
           drops[i] = 0;
-          columnTexts[i] = []; // Clear the column
         }
+        
+        // Slower movement
+        drops[i] += Math.random() * 0.5; // Reduced speed
       }
     };
     
-    // Animation variables
+    // Animation variables - slower frame rate
     let animationId;
-    let lastTime = 0;
-    const fps = 20;
-    const fpsInterval = 1000 / fps;
-    
-    const animate = (timestamp) => {
-      if (!lastTime) lastTime = timestamp;
-      const elapsed = timestamp - lastTime;
-      
-      if (elapsed > fpsInterval) {
-        lastTime = timestamp - (elapsed % fpsInterval);
-        draw();
-      }
-      
-      animationId = requestAnimationFrame(animate);
-    };
+    let interval = setInterval(draw, 35); // ~20fps (slower than before)
     
     // Handle resize
     const handleResize = () => {
@@ -110,26 +81,29 @@ const About = () => {
       // Recalculate columns
       const newColumns = Math.floor(width / fontSize);
       
-      // Adjust columns array
-      if (newColumns > columns) {
+      // Adjust drops array
+      if (newColumns > drops.length) {
         // Add new columns
-        for (let i = columns; i < newColumns; i++) {
-          columnTexts[i] = [];
+        for (let i = drops.length; i < newColumns; i++) {
           drops[i] = Math.floor(Math.random() * -100);
         }
-      } else if (newColumns < columns) {
+      } else if (newColumns < drops.length) {
         // Remove extra columns
-        columnTexts.length = newColumns;
         drops.length = newColumns;
       }
+      
+      // Restart animation with new dimensions
+      clearInterval(interval);
+      interval = setInterval(draw, 50); // Consistent slower speed
     };
     
     window.addEventListener('resize', handleResize);
-    animationId = requestAnimationFrame(animate);
+    draw();
     
     return () => {
       window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationId);
+      clearInterval(interval);
+      if (animationId) cancelAnimationFrame(animationId);
     };
   }, []);
 
