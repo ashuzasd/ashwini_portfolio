@@ -21,9 +21,9 @@ const About = () => {
     let width = canvas.width = canvas.offsetWidth;
     let height = canvas.height = canvas.offsetHeight;
     
-    // Matrix-style coding animation
-    const chars = "01{}[]();:<>?/!@#$%^&*-+=|~`abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const fontSize = 14;
+    // Extended character set for full text display
+    const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ{}[]();:<>?/!@#$%^&*-+=|~`";
+    const fontSize = 14; // Slightly larger for better readability
     const columns = Math.floor(width / fontSize);
     
     // Create an array to track the Y position of each column
@@ -32,47 +32,75 @@ const About = () => {
       drops[i] = Math.floor(Math.random() * -100);
     }
     
-    // Color gradient for the text (green matrix style)
+    // Gray-50 color palette for text only
     const colors = [
-      { r: 0, g: 255, b: 0 },   // Bright green
-      { r: 0, g: 200, b: 0 },   // Medium green
-      { r: 0, g: 150, b: 0 }    // Dark green
+      { r: 249, g: 250, b: 251 }, // Lightest gray
+      { r: 243, g: 244, b: 246 }, // Medium light gray
+      { r: 229, g: 231, b: 235 }  // Slightly darker gray
     ];
     
+    // Store multiple characters per column for full text effect
+    const columnTexts = Array(columns).fill().map(() => []);
+    const maxTextLength = 20; // Number of characters to show per column
+    
     const draw = () => {
-      // Semi-transparent black background for trail effect
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, width, height);
+      // Clear the canvas completely (transparent background)
+      ctx.clearRect(0, 0, width, height);
       
       // Draw the characters
-      for (let i = 0; i < drops.length; i++) {
-        // Random character
-        const text = chars[Math.floor(Math.random() * chars.length)];
+      for (let i = 0; i < columns; i++) {
+        // Add new random character at the top occasionally
+        if (Math.random() > 0.97) {
+          columnTexts[i].unshift(chars[Math.floor(Math.random() * chars.length)]);
+          if (columnTexts[i].length > maxTextLength) {
+            columnTexts[i].pop();
+          }
+        }
         
         // Random color from our gradient
         const colorIdx = Math.floor(Math.random() * colors.length);
         const color = colors[colorIdx];
         
-        // Random opacity based on position (fade out at bottom)
-        const opacity = Math.random() * 0.8 + 0.2;
-        
-        ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
-        ctx.font = `${fontSize}px monospace`;
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        
-        // Reset drops to top when they reach bottom with some randomness
-        if (drops[i] * fontSize > height && Math.random() > 0.975) {
-          drops[i] = 0;
+        // Draw all characters in the column
+        for (let j = 0; j < columnTexts[i].length; j++) {
+          const opacity = 1 - (j / maxTextLength); // Fade out as we go down
+          ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+          ctx.font = `300 ${fontSize}px monospace`; // Normal font weight
+          ctx.fillText(
+            columnTexts[i][j], 
+            i * fontSize, 
+            drops[i] * fontSize + j * fontSize
+          );
         }
         
-        // Move the Y coordinate down
-        drops[i]++;
+        // Move the column down
+        drops[i] += 0.5; // Consistent slow speed
+        
+        // Reset column when it goes too far down
+        if (drops[i] * fontSize > height + maxTextLength * fontSize) {
+          drops[i] = 0;
+          columnTexts[i] = []; // Clear the column
+        }
       }
     };
     
     // Animation variables
     let animationId;
-    let interval = setInterval(draw, 33); // ~30fps
+    let lastTime = 0;
+    const fps = 20;
+    const fpsInterval = 1000 / fps;
+    
+    const animate = (timestamp) => {
+      if (!lastTime) lastTime = timestamp;
+      const elapsed = timestamp - lastTime;
+      
+      if (elapsed > fpsInterval) {
+        lastTime = timestamp - (elapsed % fpsInterval);
+        draw();
+      }
+      
+      animationId = requestAnimationFrame(animate);
+    };
     
     // Handle resize
     const handleResize = () => {
@@ -82,33 +110,26 @@ const About = () => {
       // Recalculate columns
       const newColumns = Math.floor(width / fontSize);
       
-      // Adjust drops array
-      if (newColumns > drops.length) {
+      // Adjust columns array
+      if (newColumns > columns) {
         // Add new columns
-        for (let i = drops.length; i < newColumns; i++) {
+        for (let i = columns; i < newColumns; i++) {
+          columnTexts[i] = [];
           drops[i] = Math.floor(Math.random() * -100);
         }
-      } else if (newColumns < drops.length) {
+      } else if (newColumns < columns) {
         // Remove extra columns
+        columnTexts.length = newColumns;
         drops.length = newColumns;
       }
-      
-      // Restart animation with new dimensions
-      clearInterval(interval);
-      interval = setInterval(draw, 33);
     };
     
-    // Event listeners
     window.addEventListener('resize', handleResize);
+    animationId = requestAnimationFrame(animate);
     
-    // Start animation
-    draw();
-    
-    // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
-      clearInterval(interval);
-      if (animationId) cancelAnimationFrame(animationId);
+      cancelAnimationFrame(animationId);
     };
   }, []);
 
