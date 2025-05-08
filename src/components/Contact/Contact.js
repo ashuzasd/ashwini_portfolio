@@ -1,49 +1,75 @@
 import React from 'react';
-import { FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaInstagram } from 'react-icons/fa';
+import { Box, Typography, Link, Stack, IconButton, Grid } from '@mui/material';
+import { Facebook, Twitter, LinkedIn, Instagram, YouTube } from '@mui/icons-material';
 
 const Contact = () => {
   return (
-    <footer className="bg-gray-100 py-8">
-      <div className="container mx-auto px-4">
-        {/* Contact Info */}
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold">ashwini tiwalkar</h2>
-        </div>
+    <Box
+      sx={{
+        bgcolor: '#0F0E17',
+        color: 'white',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        px: 2,
+      }}
+    >
+      <Box>
+        {/* Name & Contact */}
+        <Typography variant="h6" sx={{ color: '#854CE6', fontWeight: 'bold', mb: 1 }}>
+          ASHWINI TIWALKAR
+        </Typography>
+        {/* <Typography sx={{ color: '#854CE6' }}>7020727854</Typography> */}
+        <Link
+          href="mailto:ashwinitiwalka13@gmail.com"
+          underline="hover"
+          sx={{ color: '#854CE6', display: 'block', mb: 3 }}
+        >
+          ashwinitiwalka13@gmail.com
+        </Link>
 
-        {/* Navigation Links */}
-        <div className="flex justify-center space-x-6 mb-6">
-          <a href="#about" className="text-gray-600 hover:text-gray-900">About</a>
-          <a href="#skills" className="text-gray-600 hover:text-gray-900">Skills</a>
-          <a href="#experience" className="text-gray-600 hover:text-gray-900">Experience</a>
-          <a href="#projects" className="text-gray-600 hover:text-gray-900">Projects</a>
-          <a href="#education" className="text-gray-600 hover:text-gray-900">Education</a>
-        </div>
+        {/* Nav Links */}
+        <Grid container spacing={3} justifyContent="center" sx={{ mb: 4 }}>
+          {['About', 'Skills', 'Experience', 'Projects', 'Education'].map((text) => (
+            <Grid item key={text}>
+              <Link
+                href={`#${text.toLowerCase()}`}
+                underline="none"
+                sx={{ color: 'white', '&:hover': { color: '#854CE6' } }}
+              >
+                {text}
+              </Link>
+            </Grid>
+          ))}
+        </Grid>
 
         {/* Social Icons */}
-        <div className="flex justify-center space-x-6 mb-6">
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600">
-            <FaFacebook size={24} />
-          </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-400">
-            <FaTwitter size={24} />
-          </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-700">
-            <FaLinkedin size={24} />
-          </a>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900">
-            <FaGithub size={24} />
-          </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-pink-600">
-            <FaInstagram size={24} />
-          </a>
-        </div>
+        <Stack direction="row" spacing={2} justifyContent="center" sx={{ mb: 4 }}>
+          <IconButton href="https://facebook.com" target="_blank" sx={{ color: 'white', '&:hover': { color: '#4267B2' } }}>
+            <Facebook />
+          </IconButton>
+          <IconButton href="https://twitter.com" target="_blank" sx={{ color: 'white', '&:hover': { color: '#1DA1F2' } }}>
+            <Twitter />
+          </IconButton>
+          <IconButton href="https://linkedin.com" target="_blank" sx={{ color: 'white', '&:hover': { color: '#0A66C2' } }}>
+            <LinkedIn />
+          </IconButton>
+          <IconButton href="https://instagram.com" target="_blank" sx={{ color: 'white', '&:hover': { color: '#E1306C' } }}>
+            <Instagram />
+          </IconButton>
+          <IconButton href="https://youtube.com" target="_blank" sx={{ color: 'white', '&:hover': { color: '#FF0000' } }}>
+            <YouTube />
+          </IconButton>
+        </Stack>
 
         {/* Copyright */}
-        <div className="text-center text-gray-500 text-sm">
+        {/* <Typography variant="body2" sx={{ color: 'white', opacity: 0.6 }}>
           © {new Date().getFullYear()} TownHall Dev. All rights reserved.
-        </div>
-      </div>
-    </footer>
+        </Typography> */}
+      </Box>
+    </Box>
   );
 };
 
