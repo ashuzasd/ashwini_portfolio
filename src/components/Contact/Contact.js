@@ -48,12 +48,12 @@ const Contact = () => {
 
         {/* Social Icons */}
         <Stack direction="row" spacing={2} justifyContent="center" sx={{ mb: 4 }}>
-          <IconButton href="https://facebook.com" target="_blank" sx={{ color: 'white', '&:hover': { color: '#4267B2' } }}>
+          {/* <IconButton href="https://facebook.com" target="_blank" sx={{ color: 'white', '&:hover': { color: '#4267B2' } }}>
             <Facebook />
-          </IconButton>
-          <IconButton href="https://twitter.com" target="_blank" sx={{ color: 'white', '&:hover': { color: '#1DA1F2' } }}>
+          </IconButton> */}
+          {/* <IconButton href="https://twitter.com" target="_blank" sx={{ color: 'white', '&:hover': { color: '#1DA1F2' } }}>
             <Twitter />
-          </IconButton>
+          </IconButton> */}
           <IconButton href="https://linkedin.com" target="https://www.linkedin.com/in/ashwini-tiwalkar-443550212/" sx={{ color: 'white', '&:hover': { color: '#0A66C2' } }}>
             <LinkedIn />
           </IconButton>
