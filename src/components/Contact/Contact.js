@@ -1,101 +1,49 @@
-import styles from "./Contact.module.css";
-import { useRef, useState } from "react";
-import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
-import Marker from "../../img/marker.png";
-import ThankYou from "../UI/ThankYou";
-import { AnimatePresence } from "framer-motion";
+import React from 'react';
+import { FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaInstagram } from 'react-icons/fa';
 
 const Contact = () => {
-  const formRef = useRef();
-  const [done, setDone] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // No emailjs functionality, just set done to true for demo
-    setDone(true);
-  };
-
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "YOUR_GOOGLE_MAPS_API_KEY", // Replace with actual key
-  });
-
-  if (!isLoaded) return <div>Loading</div>;
-
   return (
-    <div id="contact" className={styles.contact}>
-      <div className={styles.right}>
-        <p data-aos="fade-up-right" className={styles.description}>
-          <b>Interested in my work?</b> Get in touch and send me a message.
-          Always open to build amazing projects.
-        </p>
-        <form ref={formRef} onSubmit={handleSubmit}>
-          <input
-            data-aos="fade-up-right"
-            type="text"
-            placeholder="Name"
-            name="user_name"
-          />
-          <input
-            data-aos="fade-up-right"
-            type="text"
-            placeholder="Subject"
-            name="user_subject"
-          />
-          <input
-            data-aos="fade-up-right"
-            type="text"
-            placeholder="Email"
-            name="user_email"
-          />
-          <textarea
-            data-aos="fade-up-right"
-            rows="5"
-            placeholder="Message"
-            name="message"
-          />
-          <button data-aos="fade-up-right">Submit</button>
-        </form>
-      </div>
+    <footer className="bg-gray-100 py-8">
+      <div className="container mx-auto px-4">
+        {/* Contact Info */}
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold">ashwini tiwalkar</h2>
+        </div>
 
-      <AnimatePresence
-        initial={false}
-        exitBeforeEnter={true}
-        onExitComplete={() => null}
-      >
-        {done && (
-          <ThankYou
-            onConfirm={() => {
-              setDone(false);
-            }}
-          />
-        )}
-      </AnimatePresence>
+        {/* Navigation Links */}
+        <div className="flex justify-center space-x-6 mb-6">
+          <a href="#about" className="text-gray-600 hover:text-gray-900">About</a>
+          <a href="#skills" className="text-gray-600 hover:text-gray-900">Skills</a>
+          <a href="#experience" className="text-gray-600 hover:text-gray-900">Experience</a>
+          <a href="#projects" className="text-gray-600 hover:text-gray-900">Projects</a>
+          <a href="#education" className="text-gray-600 hover:text-gray-900">Education</a>
+        </div>
 
-      <div
-        data-aos="fade-left"
-        data-aos-duration="1500"
-        className={styles.left}
-      >
-        <GoogleMap
-          zoom={5}
-          center={{ lat: 33.838000707701006, lng: -117.86423156003966 }}
-          mapContainerClassName={styles.map}
-          options={{
-            mapId: "YOUR_MAP_ID", // Replace with actual map ID or remove if not used
-            disableDefaultUI: true,
-            gestureHandling: "greedy",
-          }}
-        >
-          <MarkerF
-            icon={{
-              url: Marker,
-              scaledSize: new window.google.maps.Size(30, 50),
-            }}
-            position={{ lat: 33.838000707701006, lng: -117.86423156003966 }}
-          />
-        </GoogleMap>
+        {/* Social Icons */}
+        <div className="flex justify-center space-x-6 mb-6">
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600">
+            <FaFacebook size={24} />
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-400">
+            <FaTwitter size={24} />
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-700">
+            <FaLinkedin size={24} />
+          </a>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900">
+            <FaGithub size={24} />
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-pink-600">
+            <FaInstagram size={24} />
+          </a>
+        </div>
+
+        {/* Copyright */}
+        <div className="text-center text-gray-500 text-sm">
+          © {new Date().getFullYear()} TownHall Dev. All rights reserved.
+        </div>
       </div>
-    </div>
+    </footer>
   );
 };
 
