@@ -52,7 +52,7 @@ const Landing = () => {
         </div>
       </div>
       
-      <Link to="project" spy={true} smooth={true} offset={-30} duration={500}>
+      <Link to="skills" spy={true} smooth={true} offset={-30} duration={500}>
         <Mouse />
       </Link>
     </div>
