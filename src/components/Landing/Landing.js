@@ -1,104 +1,147 @@
-import styles from "./Landing.module.css";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import styles from "./Landing.module.css";
 import Mouse from "../UI/Mouse";
 import { Link } from "react-scroll";
 
-const FloatingCircles = () => {
-  const colors = ["#FF2975", "#8C1EFF", "#FFD319", "#00F0FF"];
-  
+const getRandomPosition = () => ({
+  x: Math.floor(Math.random() * 400 - 200),
+  y: Math.floor(Math.random() * 400 - 200),
+});
+
+const FloatingSquare = ({ id, color, size, initialTop, initialLeft }) => {
+  const [position, setPosition] = useState(getRandomPosition());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPosition(getRandomPosition());
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(3)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full opacity-10"
-          style={{
-            backgroundColor: colors[i % colors.length],
-            width: `${Math.random() * 200 + 100}px`,
-            height: `${Math.random() * 200 + 100}px`,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            x: [0, (Math.random() - 0.5) * 100],
-            y: [0, (Math.random() - 0.5) * 100],
-            opacity: [0.1, 0.2, 0.1]
-          }}
-          transition={{
-            duration: 10 + Math.random() * 20,
-            repeat: Infinity,
-            repeatType: "reverse",
-            ease: "easeInOut"
-          }}
-        />
+    <motion.div
+      animate={position}
+      transition={{ duration: 2, ease: "easeInOut" }}
+      style={{
+        position: "absolute",
+        top: initialTop,
+        left: initialLeft,
+        width: size,
+        height: size,
+        backgroundColor: color,
+        borderRadius: "8px",
+        zIndex: 10,
+        pointerEvents: "none",
+      }}
+    />
+  );
+};
+
+const CollapsingSquare = ({ collapse }) => {
+  return (
+    <motion.div
+      initial={{ scale: 1, x: 0 }}
+      animate={{
+        scale: collapse ? 0.2 : 1,
+        x: collapse ? -200 : 0,
+        opacity: collapse ? 0.2 : 0.6,
+      }}
+      transition={{ duration: 1, ease: "easeInOut" }}
+      style={{
+        position: "absolute",
+        top: "60%",
+        left: "70%",
+        width: "90px",
+        height: "90px",
+        backgroundColor: "rgba(255, 192, 203, 0.3)",
+        borderRadius: "8px",
+        zIndex: 10,
+        pointerEvents: "none",
+      }}
+    />
+  );
+};
+
+const FloatingSquares = () => {
+  const squares = [
+    {
+      id: 1,
+      color: "rgba(128, 0, 128, 0.3)",
+      size: "100px",
+      initialTop: "30%",
+      initialLeft: "20%",
+    },
+    {
+      id: 2,
+      color: "rgba(128, 128, 128, 0.3)",
+      size: "80px",
+      initialTop: "50%",
+      initialLeft: "60%",
+    },
+    {
+      id: 3,
+      color: "rgba(186, 85, 211, 0.3)",
+      size: "120px",
+      initialTop: "70%",
+      initialLeft: "40%",
+    },
+  ];
+
+  return (
+    <>
+      {squares.map((square) => (
+        <FloatingSquare key={square.id} {...square} />
       ))}
-    </div>
+    </>
   );
 };
 
 const Landing = () => {
+  const [collapseCard, setCollapseCard] = useState(false);
+
+  const handleMouseMove = (e) => {
+    const screenWidth = window.innerWidth;
+    if (e.clientX > screenWidth / 2) {
+      setCollapseCard(true);
+    } else {
+      setCollapseCard(false);
+    }
+  };
+
   return (
-    <div id="landing" className={`${styles.landing} relative bg-black`}>
-      {/* Floating background circles */}
-      <FloatingCircles />
-      
-      {/* Retro Grid */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute inset-0 grid grid-cols-8 gap-1 p-1 pointer-events-none">
-          {Array.from({ length: 128 }).map((_, i) => (
-            <motion.div
-              key={i}
-              className="h-4 w-4 border-2 border-[#FF2975]"
-              initial={{ opacity: 0 }}
-              animate={{
-                opacity: [0, 0.8, 0.3],
-                scale: [1, 1.2, 1],
-                borderColor: ["#FF2975", "#8C1EFF", "#FFD319"]
-              }}
-              transition={{
-                repeat: Infinity,
-                duration: 4,
-                delay: i * 0.02,
-              }}
-            />
-          ))}
-        </div>
+    <div
+      id="landing"
+      className={styles.landing}
+      style={{ position: "relative", backgroundColor: "#000", overflow: "hidden", minHeight: "100vh" }}
+      onMouseMove={handleMouseMove}
+    >
+      {/* Floating Squares */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 5 }}>
+        <FloatingSquares />
+        <CollapsingSquare collapse={collapseCard} />
       </div>
-      
-      {/* Content with animations */}
-      <div className={`${styles.left} relative z-20`}>
+
+      {/* Dark Overlay */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.4)",
+          zIndex: 8,
+        }}
+      />
+
+      {/* Main Content */}
+      <div className={styles.left} style={{ position: "relative", zIndex: 10 }}>
         <div className={styles.leftWrapper}>
-          <motion.h2 
-            className={styles.intro}
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            Hello, My name is
-          </motion.h2>
-          
-          <motion.h1 
-            className={styles.name}
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.3 }}
-            whileHover={{ scale: 1.02 }}
-          >
-            Ashwini Tiwalkar
-          </motion.h1>
-          
-          <motion.p 
-            className={styles.description}
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            Full Stack Developer
-          </motion.p>
+          <h2 className={styles.intro}>Hello, My name is</h2>
+          <h1 className={styles.name}>Ashwini Tiwalkar</h1>
+          <p className={styles.description}>Full Stack Developer</p>
         </div>
       </div>
-      
-      <Link to="skills" spy smooth offset={-30} duration={500}>
+
+      <Link to="skills" spy={true} smooth={true} offset={-30} duration={500}>
         <Mouse />
       </Link>
     </div>
