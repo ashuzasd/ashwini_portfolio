@@ -131,7 +131,7 @@ const ProjectList = () => {
         className={styles.projectContainer}
         style={{
           flexDirection: index % 2 === 0 ? "row" : "row-reverse",
-          backgroundColor: "rgba(0, 0, 0, 0.25)",
+          backgroundColor: "rgba(17, 17, 17, 0.58)",
           borderRadius: "10px",
           padding: "20px",
           alignItems: "center",
