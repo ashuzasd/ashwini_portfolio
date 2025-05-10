@@ -138,6 +138,9 @@ const Landing = () => {
           <h2 className={styles.intro}>Hello, My name is</h2>
           <h1 className={styles.name}>Ashwini Tiwalkar</h1>
           <p className={styles.description}>Full Stack Developer</p>
+          <p className={styles.description}>Mobile Application</p>
+          <p className={styles.description}>Web Developer</p>
+          <p className={styles.description}>Android Development</p>
         </div>
       </div>
 
