@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import styles from "./Landing.module.css";
 import Mouse from "../UI/Mouse";
@@ -9,7 +9,7 @@ const getRandomPosition = () => ({
   y: Math.floor(Math.random() * 400 - 200),
 });
 
-const FloatingSquare = ({ id, color, size, initialTop, initialLeft }) => {
+const FloatingSquare = ({ color, size, initialTop, initialLeft }) => {
   const [position, setPosition] = useState(getRandomPosition());
 
   useEffect(() => {
@@ -66,21 +66,18 @@ const CollapsingSquare = ({ collapse }) => {
 const FloatingSquares = () => {
   const squares = [
     {
-      id: 1,
       color: "rgba(128, 0, 128, 0.3)",
       size: "100px",
       initialTop: "30%",
       initialLeft: "20%",
     },
     {
-      id: 2,
       color: "rgba(128, 128, 128, 0.3)",
       size: "80px",
       initialTop: "50%",
       initialLeft: "60%",
     },
     {
-      id: 3,
       color: "rgba(186, 85, 211, 0.3)",
       size: "120px",
       initialTop: "70%",
@@ -90,8 +87,8 @@ const FloatingSquares = () => {
 
   return (
     <>
-      {squares.map((square) => (
-        <FloatingSquare key={square.id} {...square} />
+      {squares.map((square, index) => (
+        <FloatingSquare key={index} {...square} />
       ))}
     </>
   );
@@ -113,7 +110,12 @@ const Landing = () => {
     <div
       id="landing"
       className={styles.landing}
-      style={{ position: "relative", backgroundColor: "#000", overflow: "hidden", minHeight: "100vh" }}
+      style={{
+        position: "relative",
+        backgroundColor: "#000",
+        overflow: "hidden",
+        minHeight: "100vh",
+      }}
       onMouseMove={handleMouseMove}
     >
       {/* Floating Squares */}
@@ -133,17 +135,27 @@ const Landing = () => {
       />
 
       {/* Main Content */}
-      <div className={styles.left} style={{ position: "relative", zIndex: 10 }}>
+      <div
+        className={styles.left}
+        style={{ position: "relative", zIndex: 10 }}
+      >
         <div className={styles.leftWrapper}>
           <h2 className={styles.intro}>Hello, My name is</h2>
           <h1 className={styles.name}>Ashwini Tiwalkar</h1>
-          <p className={styles.description}>Full Stack Developer</p>
-          <p className={styles.description}>Mobile Application</p>
-          <p className={styles.description}>Web Developer</p>
-          <p className={styles.description}>Android Development</p>
+
+          {/* Horizontally Scrolling Text */}
+          <div className={styles.scrollContainer}>
+            <div className={styles.scrollContent}>
+              <p className={styles.description}>Full Stack Developer</p>
+              <p className={styles.description}>Mobile Application</p>
+              <p className={styles.description}>Web Developer</p>
+              <p className={styles.description}>Android Development</p>
+            </div>
+          </div>
         </div>
       </div>
 
+      {/* Scroll to Skills Section */}
       <Link to="skills" spy={true} smooth={true} offset={-30} duration={500}>
         <Mouse />
       </Link>
