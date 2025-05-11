@@ -135,12 +135,12 @@ const Landing = () => {
       {/* Main Content */}
       <div className={styles.left} style={{ position: "relative", zIndex: 10 }}>
         <div className={styles.leftWrapper}>
-          <h2 className={styles.intro}>Hello, My name is</h2>
+          <h2 className={styles.intro}>Hello, I am</h2>
           <h1 className={styles.name}>Ashwini Tiwalkar</h1>
           <p className={styles.description}>Full Stack Developer</p>
           <p className={styles.description}>Mobile Application</p>
           <p className={styles.description}>Web Developer</p>
-          <p className={styles.description}>Android development</p>
+          <p className={styles.description}>Android </p>
         </div>
       </div>
 
