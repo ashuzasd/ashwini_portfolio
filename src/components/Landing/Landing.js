@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import styles from "./Landing.module.css";
 import Mouse from "../UI/Mouse";
@@ -11,13 +11,6 @@ const getRandomPosition = () => ({
 
 const FloatingSquare = ({ id, color, size, initialTop, initialLeft }) => {
   const [position, setPosition] = useState(getRandomPosition());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPosition(getRandomPosition());
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <motion.div
@@ -132,15 +125,15 @@ const Landing = () => {
         }}
       />
 
-      {/* Main Content */}
+      {/* Main Content - All text in white */}
       <div className={styles.left} style={{ position: "relative", zIndex: 10 }}>
-        <div className={styles.leftWrapper}>
-          <h2 className={styles.intro}>Hello, I am</h2>
-          <h1 className={styles.name}>Ashwini Tiwalkar</h1>
-          <p className={styles.description}>Full Stack Developer</p>
-          <p className={styles.description}>Mobile Application</p>
-          <p className={styles.description}>Web Developer</p>
-          <p className={styles.description}>Android </p>
+        <div className={styles.leftWrapper} style={{ color: "white" }}>
+          <h2 className={styles.intro} style={{ color: "white" }}>Hello, I am</h2>
+          <h1 className={styles.name} style={{ color: "white" }}>Ashwini Tiwalkar</h1>
+          <p className={styles.description} style={{ color: "white" }}>Full Stack Developer</p>
+          <p className={styles.description} style={{ color: "white" }}>Mobile Application</p>
+          <p className={styles.description} style={{ color: "white" }}>Web Developer</p>
+          <p className={styles.description} style={{ color: "white" }}>Android development</p>
         </div>
       </div>
 
