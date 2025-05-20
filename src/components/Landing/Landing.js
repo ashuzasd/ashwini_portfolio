@@ -130,10 +130,25 @@ const Landing = () => {
         <div className={styles.leftWrapper} style={{ color: "white" }}>
           <h2 className={styles.intro} style={{ color: "white" }}>Hello, I am</h2>
           <h1 className={styles.name} style={{ color: "white" }}>Ashwini Tiwalkar</h1>
-          <p className={styles.description} style={{ color: "white" }}>Full Stack Developer</p>
-          <p className={styles.description} style={{ color: "white" }}>Mobile Application</p>
-          <p className={styles.description} style={{ color: "white" }}>Web Developer</p>
-          <p className={styles.description} style={{ color: "white" }}>Android development</p>
+        <div className={styles.left} style={{ position: "relative", zIndex: 10 }}>
+
+    <marquee behavior="scroll" direction="left" scrollamount="5" loop="infinite" style={{ whiteSpace: "nowrap" }}>
+   
+      <p className={styles.description} style={{ color: "white", display: "inline-block", marginRight: "20px" }}>
+        Full Stack Developer
+      </p>
+      <p className={styles.description} style={{ color: "white", display: "inline-block", marginRight: "20px" }}>
+        Android developer
+      </p>
+      <p className={styles.description} style={{ color: "white", display: "inline-block", marginRight: "20px" }}>
+        Web Developer
+      </p>
+      <p className={styles.description} style={{ color: "white", display: "inline-block", marginRight: "20px" }}>
+        Software Developer
+      </p>
+    </marquee>
+</div>
+
         </div>
       </div>
 
