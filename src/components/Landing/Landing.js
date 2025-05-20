@@ -106,7 +106,12 @@ const Landing = () => {
     <div
       id="landing"
       className={styles.landing}
-      style={{ position: "relative", backgroundColor: "#000", overflow: "hidden", minHeight: "100vh" }}
+      style={{
+        position: "relative",
+        backgroundColor: "#000",
+        overflow: "hidden",
+        minHeight: "100vh",
+      }}
       onMouseMove={handleMouseMove}
     >
       {/* Floating Squares */}
@@ -128,27 +133,65 @@ const Landing = () => {
       {/* Main Content - All text in white */}
       <div className={styles.left} style={{ position: "relative", zIndex: 10 }}>
         <div className={styles.leftWrapper} style={{ color: "white" }}>
-          <h2 className={styles.intro} style={{ color: "white" }}>Hello, I am</h2>
-          <h1 className={styles.name} style={{ color: "white" }}>Ashwini Tiwalkar</h1>
-        <div className={styles.left} style={{ position: "relative", zIndex: 10 }}>
-
-    <marquee behavior="scroll" direction="left" scrollamount="5" loop="infinite" style={{ whiteSpace: "nowrap" }}>
-   
-      <p className={styles.description} style={{ color: "white", display: "inline-block", marginRight: "20px" }}>
-        Full Stack Developer
-      </p>
-      <p className={styles.description} style={{ color: "white", display: "inline-block", marginRight: "20px" }}>
-        Android developer
-      </p>
-      <p className={styles.description} style={{ color: "white", display: "inline-block", marginRight: "20px" }}>
-        Web Developer
-      </p>
-      <p className={styles.description} style={{ color: "white", display: "inline-block", marginRight: "20px" }}>
-        Software Developer
-      </p>
-    </marquee>
-</div>
-
+          <h2 className={styles.intro} style={{ color: "white" }}>
+            Hello, I am
+          </h2>
+          <h1 className={styles.name} style={{ color: "white" }}>
+            Ashwini Tiwalkar
+          </h1>
+          <div
+            className={styles.left}
+            style={{ position: "relative", zIndex: 10 }}
+          >
+            <marquee
+              behavior="scroll"
+              direction="left"
+              scrollamount="5"
+              loop="infinite"
+              style={{ whiteSpace: "nowrap" }}
+            >
+              <p
+                className={styles.description}
+                style={{
+                  color: "white",
+                  display: "inline-block",
+                  marginRight: "20px",
+                }}
+              >
+                Full Stack Developer
+              </p>
+              <p
+                className={styles.description}
+                style={{
+                  color: "white",
+                  display: "inline-block",
+                  marginRight: "20px",
+                }}
+              >
+                Android developer
+              </p>
+              <p
+                className={styles.description}
+                style={{
+                  color: "white",
+                  display: "inline-block",
+                  marginRight: "20px",
+                }}
+              >
+                Web Developer
+              </p>
+              <p
+                className={styles.description}
+                style={{
+                  color: "white",
+                  display: "inline-block",
+                  marginRight: "20px",
+                }}
+              >
+                Software Developer
+              </p>
+            </marquee>
+          </div>
         </div>
       </div>
 
