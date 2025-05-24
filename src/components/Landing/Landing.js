@@ -139,6 +139,7 @@ const Landing = () => {
           <h1 className={styles.name} style={{ color: "white" }}>
             Ashwini Tiwalkar
           </h1>
+          
           <div
             className={styles.left}
             style={{ position: "relative", zIndex: 10 }}
@@ -192,6 +193,7 @@ const Landing = () => {
               </p>
             </marquee>
           </div>
+
         </div>
       </div>
 
